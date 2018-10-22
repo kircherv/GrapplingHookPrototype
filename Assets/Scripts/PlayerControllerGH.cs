@@ -8,7 +8,7 @@ public class PlayerControllerGH : MonoBehaviour {
     public float moveSpeed = 7f;
     public float moveForce = 3000f;
 
-    public float jumpForce = 100f;
+    public float jumpForce = 1000f;
 
     public Rigidbody playerRigidbody;
     public Collider m_Collider;
@@ -29,7 +29,7 @@ public class PlayerControllerGH : MonoBehaviour {
     private Quaternion lookRight;
     private Vector3 moveDirection = Vector3.zero;
 
-    private ClickToCreateGH localClickToCreate;
+    public ClickToCreateGH localClickToCreate;
 
     private void Awake()
     {
@@ -62,7 +62,7 @@ public class PlayerControllerGH : MonoBehaviour {
     }
 
     //is player on ground, check which side has to be blocked on air
-    bool isGrounded()
+    bool IsGrounded()
     {
         leftSideGrounded = Physics.Raycast(transform.position + new Vector3(-0.5f, 0, 0), Vector3.down, distanceToGround + 0.1f);
         rightSideGrounded = Physics.Raycast(transform.position + new Vector3(0.5f, 0, 0), Vector3.down, distanceToGround + 0.1f);
@@ -93,23 +93,27 @@ public class PlayerControllerGH : MonoBehaviour {
 
     void Update()
     {
-        if((isGrounded() || !doubleJump) && Input.GetButton("Jump"))
+        if((IsGrounded() || !doubleJump) && Input.GetButton("Jump"))
         {
             animator.SetBool("isGrounded", false);
             playerRigidbody.AddForce(new Vector3(0, jumpForce, 0));
 
-            if (!doubleJump && !isGrounded())
+            if (!doubleJump && !IsGrounded())
                 doubleJump = true;
         }
     }
 
     private void PlayerMovement()
     {
-        if (isGrounded())
+
+        animator.SetBool("isGrounded", IsGrounded());
+        animator.SetBool("isRunning", isRunning);
+        if (IsGrounded())
         {
             if (localClickToCreate.grappleDeployed == false)
             {
-                transform.rotation = Quaternion.identity;
+                //transform.rotation = Quaternion.identity;
+              //  transform.rotation = playerStartRotation;
 
                 if (Input.GetButton("MoveRight") && !Input.GetButton("MoveLeft"))
                 {
@@ -137,29 +141,24 @@ public class PlayerControllerGH : MonoBehaviour {
                 {
                     isRunning = false;
                 }
+
+
+                // if(Input.GetButton("Horizontal"))
+
+                if (Input.GetButton("Reset") || gameObject.tag == "DeathZone")
+                {
+                    resetPlayer();
+                }
+                //var Vector3 movement = new Vector3(Input.GetButton("Horizontal"), transform.position.y, 0);
+                //transform.rotation = Quaternion.Slerp(transform.rotation,Quaternion.LookRotation())
+                moveDirection = new Vector3(-(Input.GetAxis("Vertical")), 0, Input.GetAxis("Horizontal"));
             }
         }
     }
 
     // Update is called once per frame
     void FixedUpdate ()
-    {
+    {      
         PlayerMovement();
-        
-
-       // if(Input.GetButton("Horizontal"))
-
-        if (Input.GetButton("Reset")|| gameObject.tag == "DeathZone")
-        {
-            resetPlayer();
-        }
-        animator.SetBool("isGrounded", isGrounded());
-        animator.SetBool("isRunning", isRunning);
-        //var Vector3 movement = new Vector3(Input.GetButton("Horizontal"), transform.position.y, 0);
-        //transform.rotation = Quaternion.Slerp(transform.rotation,Quaternion.LookRotation())
-        moveDirection = new Vector3(-(Input.GetAxis("Vertical")), 0, Input.GetAxis("Horizontal"));
-
-
-
     }
 }

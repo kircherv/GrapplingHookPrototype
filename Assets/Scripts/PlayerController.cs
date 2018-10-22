@@ -8,12 +8,12 @@ public class PlayerController : MonoBehaviour {
     public float moveSpeed = 7f;
     public float moveForce = 3000f;
 
-    public float jumpForce = 100f;
+    public float jumpForce = 1000f;
 
     public Rigidbody playerRigidbody;
     public Collider m_Collider;
     public Vector3 resetPlayerPosition = new Vector3(-6, 1.2f, 0.2f);
-    public Animator animator;
+   // public Animator animator;
     private Vector3 playerVec3Rotation = new Vector3(0, 0, 0);
     private Quaternion playerStartRotation;
     //Grounding
@@ -55,14 +55,14 @@ public class PlayerController : MonoBehaviour {
 
         playerStartRotation = transform.rotation;
 
-        animator = GetComponent<Animator>();
+        //animator = GetComponent<Animator>();
 
         lookRight = transform.rotation;
         lookLeft = lookRight * Quaternion.Euler(0, 180, 0);
     }
 
     //is player on ground, check which side has to be blocked on air
-    bool isGrounded()
+    bool IsGrounded()
     {
         leftSideGrounded = Physics.Raycast(transform.position + new Vector3(-0.5f, 0, 0), Vector3.down, distanceToGround + 0.1f);
         rightSideGrounded = Physics.Raycast(transform.position + new Vector3(0.5f, 0, 0), Vector3.down, distanceToGround + 0.1f);
@@ -93,12 +93,13 @@ public class PlayerController : MonoBehaviour {
 
     void Update()
     {
-        if((isGrounded() || !doubleJump) && Input.GetButton("Jump"))
+        if((IsGrounded() || !doubleJump) && Input.GetButton("Jump"))
         {
-            animator.SetBool("isGrounded", false);
+            GetComponent<Animator>().SetBool("isGrounded", false);
+            //animator.SetBool("isGrounded", false);
             playerRigidbody.AddForce(new Vector3(0, jumpForce, 0));
 
-            if (!doubleJump && !isGrounded())
+            if (!doubleJump && !IsGrounded())
                 doubleJump = true;
         }
     }
@@ -106,9 +107,9 @@ public class PlayerController : MonoBehaviour {
     // Update is called once per frame
     void FixedUpdate ()
     {
-        animator.SetBool("isGrounded", isGrounded());
+        GetComponent<Animator>().SetBool("isGrounded", IsGrounded());
         
-         if (Input.GetButton("MoveRight") && !Input.GetButton("MoveLeft") && isGrounded())
+         if (Input.GetButton("MoveRight") && !Input.GetButton("MoveLeft") && IsGrounded())
          {
              if (playerRigidbody.velocity.x < moveSpeed)
              {
@@ -119,7 +120,7 @@ public class PlayerController : MonoBehaviour {
              }
                 
          }
-         else if (Input.GetButton("MoveLeft") && !Input.GetButton("MoveRight") && isGrounded())
+         else if (Input.GetButton("MoveLeft") && !Input.GetButton("MoveRight") && IsGrounded())
          {
              if (playerRigidbody.velocity.x > moveSpeed * -1)
              {
@@ -142,7 +143,7 @@ public class PlayerController : MonoBehaviour {
             resetPlayer();
         }
 
-        animator.SetBool("isRunning", isRunning);
+        GetComponent<Animator>().SetBool("isRunning", isRunning);
         //var Vector3 movement = new Vector3(Input.GetButton("Horizontal"), transform.position.y, 0);
         //transform.rotation = Quaternion.Slerp(transform.rotation,Quaternion.LookRotation())
         moveDirection = new Vector3(-(Input.GetAxis("Vertical")), 0, Input.GetAxis("Horizontal"));

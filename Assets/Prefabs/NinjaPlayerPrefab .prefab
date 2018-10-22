@@ -55,6 +55,8 @@ GameObject:
   - component: {fileID: 95816945466988760}
   - component: {fileID: 137687192657013960}
   - component: {fileID: 114425546647163994}
+  - component: {fileID: 114271667444545386}
+  - component: {fileID: 114847197021588580}
   m_Layer: 0
   m_Name: ninja
   m_TagString: Untagged
@@ -2269,7 +2271,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1056785229632342}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fdcec87c0803827439170da5f017a896, type: 3}
   m_Name: 
@@ -2278,10 +2280,9 @@ MonoBehaviour:
   moveForce: 3000
   jumpForce: 1000
   playerRigidbody: {fileID: 54543541680812222}
-  resetPlayerPosition: {x: -6, y: 1.2, z: 0.2}
-  animator: {fileID: 95998950111041602}
   m_Collider: {fileID: 65355460049319340}
---- !u!114 &114425546647163994
+  resetPlayerPosition: {x: -6, y: 1.2, z: 0.2}
+--- !u!114 &114271667444545386
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2289,11 +2290,53 @@ MonoBehaviour:
   m_GameObject: {fileID: 1056785229632342}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0374408d0e799945a9594fadc47ea7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grapplingHookPrefab: {fileID: 1951262534193580, guid: 7b9360d9085d6e845ac8d092d4ed59cc,
+    type: 2}
+  currentGrapplingHook: {fileID: 1951262534193580, guid: 7b9360d9085d6e845ac8d092d4ed59cc,
+    type: 2}
+  failedGrapplePrefab: {fileID: 1951262534193580, guid: 7b9360d9085d6e845ac8d092d4ed59cc,
+    type: 2}
+  failedGrapple: {fileID: 1951262534193580, guid: 7b9360d9085d6e845ac8d092d4ed59cc,
+    type: 2}
+  grappleDeployed: 0
+  grappleRetractSpeed: 10
+  grapplePayoutSpeed: 10
+  customGravity: {x: 0, y: 0, z: 0}
+  gravityFactor: 60
+--- !u!114 &114425546647163994
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1056785229632342}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9760a3f67856d7c4faca2661638a0f7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cursorMarkerObject: {fileID: 1951262534193580, guid: 7b9360d9085d6e845ac8d092d4ed59cc,
     type: 2}
+--- !u!114 &114847197021588580
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1056785229632342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f8aa17c1f04fc34e8b7a461c0a25513, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 20
+  moveForce: 3000
+  jumpForce: 1000
+  playerRigidbody: {fileID: 54543541680812222}
+  m_Collider: {fileID: 65355460049319340}
+  resetPlayerPosition: {x: -6, y: 1.2, z: 0.2}
+  animator: {fileID: 95816945466988760}
 --- !u!137 &137158123525657132
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
