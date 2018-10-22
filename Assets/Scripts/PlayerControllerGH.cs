@@ -24,12 +24,13 @@ public class PlayerControllerGH : MonoBehaviour {
     private bool rightSideGrounded = false;
 
     private bool doubleJump = false;
-
+    private bool isClambering = false;
     private Quaternion lookLeft;
     private Quaternion lookRight;
     private Vector3 moveDirection = Vector3.zero;
 
     public ClickToCreateGH localClickToCreate;
+    private GrapplingHook gH;
 
     private void Awake()
     {
@@ -56,6 +57,7 @@ public class PlayerControllerGH : MonoBehaviour {
         playerStartRotation = transform.rotation;
 
         animator = GetComponent<Animator>();
+        gH = GetComponent<GrapplingHook>();
 
         lookRight = transform.rotation;
         lookLeft = lookRight * Quaternion.Euler(0, 180, 0);
@@ -68,6 +70,8 @@ public class PlayerControllerGH : MonoBehaviour {
         rightSideGrounded = Physics.Raycast(transform.position + new Vector3(0.5f, 0, 0), Vector3.down, distanceToGround + 0.1f);
         return (leftSideGrounded || rightSideGrounded);
     }
+
+    
 
 
 
@@ -101,11 +105,17 @@ public class PlayerControllerGH : MonoBehaviour {
             if (!doubleJump && !IsGrounded())
                 doubleJump = true;
         }
+
+        if (gH.isClambering())
+           isClambering = true;        
+        else
+            isClambering = false;
+
     }
 
     private void PlayerMovement()
     {
-
+        animator.SetBool("isClambering", localClickToCreate.grappleDeployed);
         animator.SetBool("isGrounded", IsGrounded());
         animator.SetBool("isRunning", isRunning);
         if (IsGrounded())

@@ -48,6 +48,10 @@ public class GrapplingHook : MonoBehaviour
         ropeLength = Vector3.Distance(grapplePoint, transform.position);
     }
 
+    public bool isClambering()
+    {
+        return clambering;
+    }
 
 
     public void UpdateGrappleAncher()
