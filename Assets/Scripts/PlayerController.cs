@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
     public float jumpForce = 100f;
 
     public Rigidbody playerRigidbody;
+    public Collider m_Collider;
     public Vector3 resetPlayerPosition = new Vector3(-6, 1.2f, 0.2f);
     public Animator animator;
     private Vector3 playerVec3Rotation = new Vector3(0, 0, 0);
@@ -28,8 +29,14 @@ public class PlayerController : MonoBehaviour {
     private Quaternion lookRight;
     private Vector3 moveDirection = Vector3.zero;
 
-    public Collider m_Collider;
-    
+    private ClickToCreateGH localClickToCreate;
+
+    private void Awake()
+    {
+        localClickToCreate = GetComponent<ClickToCreateGH>();
+    }
+
+
 
     // Use this for initialization
     void Start()
@@ -88,7 +95,7 @@ public class PlayerController : MonoBehaviour {
     {
         if((isGrounded() || !doubleJump) && Input.GetButton("Jump"))
         {
-            animator.SetBool("Ground", false);
+            animator.SetBool("isGrounded", false);
             playerRigidbody.AddForce(new Vector3(0, jumpForce, 0));
 
             if (!doubleJump && !isGrounded())
